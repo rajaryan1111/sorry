@@ -14,11 +14,12 @@ interface ConstellationSceneProps {
   reconnecting: boolean;
   interactive: boolean;
   reducedMotion: boolean;
+  viewport: 'phone' | 'tablet' | 'desktop';
   onActivateStar: (star: LittleThingId) => void;
   onHighlightStar: (star: LittleThingId | null) => void;
 }
 
-const starPositions: Record<LittleThingId, [number, number, number]> = {
+const desktopStarPositions: Record<LittleThingId, [number, number, number]> = {
   college: [-2.15, 0.64, -0.2],
   study: [-1.42, 1.28, 0.28],
   food: [-0.72, 0.82, 0.1],
@@ -29,6 +30,36 @@ const starPositions: Record<LittleThingId, [number, number, number]> = {
   nothing: [0.56, -0.26, -0.14],
   laughing: [-1.14, -0.03, 0.18],
 };
+
+const phoneStarPositions: Record<LittleThingId, [number, number, number]> = {
+  college: [-1.18, 0.56, -0.1],
+  study: [-0.78, 1.18, 0.18],
+  food: [-0.2, 0.78, 0.08],
+  gym: [0.28, 1.34, -0.12],
+  talks: [0.78, 0.86, 0.16],
+  teasing: [1.16, 0.32, -0.06],
+  complaining: [0.48, -0.16, 0.12],
+  nothing: [-0.12, -0.48, -0.08],
+  laughing: [-0.9, -0.1, 0.12],
+};
+
+const tabletStarPositions: Record<LittleThingId, [number, number, number]> = {
+  college: [-1.68, 0.62, -0.16],
+  study: [-1.05, 1.24, 0.24],
+  food: [-0.42, 0.82, 0.1],
+  gym: [0.26, 1.42, -0.16],
+  talks: [0.92, 0.88, 0.22],
+  teasing: [1.48, 0.48, -0.08],
+  complaining: [1.28, -0.12, 0.18],
+  nothing: [0.18, -0.46, -0.12],
+  laughing: [-1.02, -0.06, 0.16],
+};
+
+function getStarPositions(viewport: 'phone' | 'tablet' | 'desktop') {
+  if (viewport === 'phone') return phoneStarPositions;
+  if (viewport === 'tablet') return tabletStarPositions;
+  return desktopStarPositions;
+}
 
 function BrightStar({
   id,
@@ -82,6 +113,10 @@ function BrightStar({
 
   return (
     <group position={position} onClick={handleClick} onPointerOver={handlePointerOver} onPointerOut={handlePointerOut}>
+      <mesh visible={interactive}>
+        <sphereGeometry args={[0.25, 12, 8]} />
+        <meshBasicMaterial transparent opacity={0.001} depthWrite={false} />
+      </mesh>
       <mesh ref={meshRef}>
         <sphereGeometry args={[0.055, 16, 16]} />
         <meshBasicMaterial
@@ -149,45 +184,51 @@ export function ConstellationScene({
   reconnecting,
   interactive,
   reducedMotion,
+  viewport,
   onActivateStar,
   onHighlightStar,
 }: ConstellationSceneProps) {
   const groupRef = useRef<THREE.Group>(null);
   const activeSet = useMemo(() => new Set(activeStarIds), [activeStarIds]);
   const constellationReady = activeStarIds.length >= 4;
+  const starPositions = getStarPositions(viewport);
+  const groupScale = viewport === 'phone' ? 0.94 : viewport === 'tablet' ? 0.98 : 1;
+  const groupY = viewport === 'phone' ? 0.06 : -0.12;
+  const distantStarCount = reducedMotion ? 50 : viewport === 'phone' ? 90 : viewport === 'tablet' ? 120 : 150;
 
   const orderedActivePoints = useMemo(() => {
     const ids = littleThingsStars
       .map((star) => star.id)
       .filter((id) => (constellationReady ? activeSet.has(id) : false));
     return ids.map((id) => starPositions[id]);
-  }, [activeSet, constellationReady]);
+  }, [activeSet, constellationReady, starPositions]);
 
   const brokenSegments = useMemo(() => {
     const fallback = littleThingsStars.slice(0, 6).map((star) => starPositions[star.id]);
     const points = orderedActivePoints.length >= 4 ? orderedActivePoints : fallback;
     return [points.slice(0, 2), points.slice(3, 5), points.slice(5, 7)].filter((segment) => segment.length > 1);
-  }, [orderedActivePoints]);
+  }, [orderedActivePoints, starPositions]);
 
   const reconnectingSegments = useMemo(
     () => [
       [starPositions.college, starPositions.study],
       [starPositions.nothing, starPositions.laughing],
     ],
-    [],
+    [starPositions],
   );
 
   useFrame(({ pointer }, delta) => {
     if (!groupRef.current) return;
-    groupRef.current.rotation.y = damp(groupRef.current.rotation.y, pointer.x * 0.06, 2.4, delta);
-    groupRef.current.rotation.x = damp(groupRef.current.rotation.x, -pointer.y * 0.035, 2.4, delta);
+    const parallax = viewport === 'desktop' ? 1 : 0.45;
+    groupRef.current.rotation.y = damp(groupRef.current.rotation.y, pointer.x * 0.06 * parallax, 2.4, delta);
+    groupRef.current.rotation.x = damp(groupRef.current.rotation.x, -pointer.y * 0.035 * parallax, 2.4, delta);
   });
 
   if (opacity <= 0.012) return null;
 
   return (
-    <group ref={groupRef} position={[0, -0.12, 0]}>
-      <DistantStars count={reducedMotion ? 60 : 150} opacity={opacity} reducedMotion={reducedMotion} />
+    <group ref={groupRef} position={[0, groupY, 0]} scale={groupScale}>
+      <DistantStars count={distantStarCount} opacity={opacity} reducedMotion={reducedMotion} />
 
       {littleThingsStars.map((star) => {
         const activated = activeSet.has(star.id);

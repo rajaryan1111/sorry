@@ -8,6 +8,7 @@ import { setHoverCursor } from '../hooks/useHoverCursor';
 interface MiniatureWorldProps {
   opacity: number;
   reducedMotion: boolean;
+  viewport: 'phone' | 'tablet' | 'desktop';
   onMemorySelect: (memory: EverydayMemoryId) => void;
 }
 
@@ -251,7 +252,7 @@ function EverydayCluster({ opacity }: { opacity: number }) {
   );
 }
 
-export function MiniatureWorld({ opacity, reducedMotion, onMemorySelect }: MiniatureWorldProps) {
+export function MiniatureWorld({ opacity, reducedMotion, viewport, onMemorySelect }: MiniatureWorldProps) {
   const pathGeometry = useMemo(() => {
     const curve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(-1.8, 0.025, -0.9),
@@ -264,10 +265,14 @@ export function MiniatureWorld({ opacity, reducedMotion, onMemorySelect }: Minia
     return new THREE.TubeGeometry(curve, 64, 0.016, 8, false);
   }, []);
 
+  const scale = viewport === 'phone' ? 0.78 : viewport === 'tablet' ? 0.9 : 1;
+  const yPosition = viewport === 'phone' ? -1.5 : viewport === 'tablet' ? -1.36 : -1.25;
+  const yRotation = viewport === 'phone' ? -0.08 : -0.18;
+
   if (opacity <= 0.015) return null;
 
   return (
-    <group position={[0, -1.25, 0]} rotation={[0, -0.18, 0]}>
+    <group position={[0, yPosition, 0]} rotation={[0, yRotation, 0]} scale={scale}>
       <mesh receiveShadow position={[0, -0.035, 0]}>
         <cylinderGeometry args={[2.55, 2.7, 0.08, 64]} />
         <meshStandardMaterial

@@ -10,6 +10,7 @@ interface Letter3DProps {
   open: boolean;
   interactive: boolean;
   reducedMotion: boolean;
+  isCompact: boolean;
   onOpenLetter: () => void;
 }
 
@@ -36,13 +37,17 @@ function useSideGeometry(direction: 'left' | 'right') {
   }, [direction]);
 }
 
-export function Letter3D({ opacity, open, interactive, reducedMotion, onOpenLetter }: Letter3DProps) {
+export function Letter3D({ opacity, open, interactive, reducedMotion, isCompact, onOpenLetter }: Letter3DProps) {
   const flapGeometry = useFlapGeometry();
   const leftGeometry = useSideGeometry('left');
   const rightGeometry = useSideGeometry('right');
   const flapRef = useRef<THREE.Group>(null);
   const paperRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
+  const floatIntensity = isCompact ? 0.02 : 0.045;
+  const rotationIntensity = isCompact ? 0.012 : 0.035;
+  const letterScale = isCompact ? 0.86 : 1.15;
+  const letterY = isCompact ? -0.48 : -0.35;
 
   useFrame(({ clock }, delta) => {
     const speed = reducedMotion ? 12 : 4.8;
@@ -54,8 +59,8 @@ export function Letter3D({ opacity, open, interactive, reducedMotion, onOpenLett
       paperRef.current.scale.y = damp(paperRef.current.scale.y, open ? 1 : 0.64, speed, delta);
     }
     if (groupRef.current && !reducedMotion) {
-      groupRef.current.rotation.y = Math.sin(clock.elapsedTime * 0.35) * 0.055;
-      groupRef.current.position.y = Math.sin(clock.elapsedTime * 0.48) * 0.03;
+      groupRef.current.rotation.y = Math.sin(clock.elapsedTime * 0.35) * (isCompact ? 0.025 : 0.055);
+      groupRef.current.position.y = letterY + Math.sin(clock.elapsedTime * 0.48) * (isCompact ? 0.012 : 0.03);
     }
   });
 
@@ -76,12 +81,12 @@ export function Letter3D({ opacity, open, interactive, reducedMotion, onOpenLett
   if (opacity <= 0.012) return null;
 
   return (
-    <Float speed={0.7} rotationIntensity={0.035} floatIntensity={0.045}>
+    <Float speed={0.7} rotationIntensity={rotationIntensity} floatIntensity={floatIntensity}>
       <group
         ref={groupRef}
-        position={[0, -0.35, 0]}
+        position={[0, letterY, 0]}
         rotation={[-0.08, 0, 0]}
-        scale={1.15}
+        scale={letterScale}
         onClick={handleClick}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
