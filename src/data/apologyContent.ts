@@ -98,10 +98,11 @@ export const apologyScene = {
 
 export const apologyLines = [
   'People started saying things about us.',
-  'I told you about it.',
-  "Looking back, I realise that bringing other people's assumptions into our friendship probably made things uncomfortable for you.",
-  'I should have handled it better.',
-  "I'm sorry, Tushi.",
+  'I brought that up with you, and looking back, I can understand why that made things uncomfortable.',
+  "I shouldn't have let other people's opinions become something you had to deal with in our friendship.",
+  'I could have handled that conversation much better.',
+  'I\'m sorry for making something that should have stayed simple and comfortable feel complicated.',
+  "I'm genuinely sorry, Tushi.",
 ] as const;
 
 export const letterScene = {
@@ -115,6 +116,7 @@ export const letterScene = {
 
 export const letterParagraphs = [
   { text: 'Tushi,', emphasis: false },
+  { text: "I didn't really know how to say all of this properly.", emphasis: false },
   {
     text: "I don't want other people's opinions to change the way I see our friendship.",
     emphasis: false,
@@ -129,6 +131,7 @@ export const letterParagraphs = [
     text: "I realise I could have handled the situation much better, and I'm genuinely sorry for that.",
     emphasis: true,
   },
+  { text: 'Honestly, I wish I had handled it differently.', emphasis: false },
   { text: "I don't expect you to reply.", emphasis: false },
   { text: "I don't expect you to forgive me immediately.", emphasis: false },
   { text: 'I just wanted to say sorry properly.', emphasis: false },
@@ -145,7 +148,7 @@ export const endingLines = [
   "You don't owe me a reply.",
   "You don't owe me forgiveness today.",
   'Take whatever time you need.',
-  "I just wanted you to know that I'm sorry.",
+  "I just wanted to say that I'm genuinely sorry.",
 ] as const;
 
 export const finalEndingLines = ['Take care, Tushi.', '— Aryan'] as const;
