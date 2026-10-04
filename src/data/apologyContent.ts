@@ -123,7 +123,7 @@ export const letterParagraphs = [
   },
   { text: "You're my friend.", emphasis: false },
   {
-    text: 'Someone I spend a huge part of my everyday life with — class, studying for exams, food, gym, random conversations, stupid jokes and everything in between.',
+    text: 'Someone I spend a regular part of my everyday life with — class, studying for exams, food, gym, random conversations, stupid jokes and everything in between.',
     emphasis: false,
   },
   { text: 'I never wanted any of that to become uncomfortable for you.', emphasis: false },
