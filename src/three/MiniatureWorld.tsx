@@ -128,6 +128,35 @@ function CollegeCluster({ opacity }: { opacity: number }) {
   );
 }
 
+function StudyCluster({ opacity }: { opacity: number }) {
+  return (
+    <Float speed={1.05} rotationIntensity={0.025} floatIntensity={0.018}>
+      <group position={[-0.18, 0.08, -1.16]} rotation={[0, -0.18, 0]}>
+        <mesh position={[0, 0.06, 0]} castShadow>
+          <boxGeometry args={[0.82, 0.06, 0.42]} />
+          <meshStandardMaterial color="#263a5d" roughness={0.7} transparent opacity={opacity * 0.9} />
+        </mesh>
+        <mesh position={[-0.12, 0.13, 0.01]} rotation={[0, 0.08, 0]} castShadow>
+          <boxGeometry args={[0.34, 0.025, 0.3]} />
+          <meshStandardMaterial color="#e6d9b8" roughness={0.68} transparent opacity={opacity * 0.88} />
+        </mesh>
+        <mesh position={[0.17, 0.15, -0.01]} rotation={[0, -0.14, 0]} castShadow>
+          <boxGeometry args={[0.36, 0.025, 0.3]} />
+          <meshStandardMaterial color="#d8e5f0" roughness={0.68} transparent opacity={opacity * 0.84} />
+        </mesh>
+        <mesh position={[0.38, 0.19, 0.11]} rotation={[0, 0, -0.34]} castShadow>
+          <cylinderGeometry args={[0.012, 0.012, 0.46, 10]} />
+          <meshStandardMaterial color="#f0cd82" roughness={0.48} transparent opacity={opacity * 0.86} />
+        </mesh>
+        <mesh position={[-0.02, 0.18, -0.17]}>
+          <boxGeometry args={[0.46, 0.012, 0.018]} />
+          <meshStandardMaterial color="#8fb4d5" emissive="#4d7da8" emissiveIntensity={0.15} transparent opacity={opacity * 0.55} />
+        </mesh>
+      </group>
+    </Float>
+  );
+}
+
 function FoodCluster({ opacity }: { opacity: number }) {
   return (
     <Float speed={1.05} rotationIntensity={0.03} floatIntensity={0.02}>
@@ -270,6 +299,9 @@ export function MiniatureWorld({ opacity, reducedMotion, onMemorySelect }: Minia
 
       <InteractiveShell memory="college" onMemorySelect={onMemorySelect}>
         <CollegeCluster opacity={opacity} />
+      </InteractiveShell>
+      <InteractiveShell memory="study" onMemorySelect={onMemorySelect}>
+        <StudyCluster opacity={opacity} />
       </InteractiveShell>
       <InteractiveShell memory="food" onMemorySelect={onMemorySelect}>
         <FoodCluster opacity={opacity} />

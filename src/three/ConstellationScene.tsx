@@ -19,14 +19,15 @@ interface ConstellationSceneProps {
 }
 
 const starPositions: Record<LittleThingId, [number, number, number]> = {
-  college: [-2.0, 0.72, -0.2],
-  food: [-1.22, 1.38, 0.34],
-  gym: [-0.28, 0.96, -0.16],
-  talks: [0.58, 1.58, 0.24],
-  teasing: [1.52, 1.05, -0.08],
-  complaining: [1.92, 0.2, 0.22],
-  nothing: [0.46, -0.22, -0.14],
-  laughing: [-1.12, -0.08, 0.18],
+  college: [-2.15, 0.64, -0.2],
+  study: [-1.42, 1.28, 0.28],
+  food: [-0.72, 0.82, 0.1],
+  gym: [0.05, 1.42, -0.18],
+  talks: [0.86, 0.88, 0.22],
+  teasing: [1.68, 1.18, -0.08],
+  complaining: [2.02, 0.28, 0.2],
+  nothing: [0.56, -0.26, -0.14],
+  laughing: [-1.14, -0.03, 0.18],
 };
 
 function BrightStar({
@@ -170,7 +171,7 @@ export function ConstellationScene({
 
   const reconnectingSegments = useMemo(
     () => [
-      [starPositions.college, starPositions.food],
+      [starPositions.college, starPositions.study],
       [starPositions.nothing, starPositions.laughing],
     ],
     [],

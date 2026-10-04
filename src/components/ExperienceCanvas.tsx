@@ -85,6 +85,7 @@ function SceneStage({
     apologyOpacity * 0.52,
     endingOpacity * (lastThingOpen ? 0.18 : 0.08),
   );
+  const miniatureWorldOpacity = Math.max(everydayOpacity, littleThingsOpacity * 0.22);
   const disconnected = activeScene === 3 || apologyOpacity > littleThingsOpacity + 0.18;
   const reconnecting = activeScene === 5 && lastThingOpen;
 
@@ -107,7 +108,7 @@ function SceneStage({
 
       <BackgroundParticles count={particleCount} reducedMotion={reducedMotion} />
       <TinyStar opacity={introOpacity} reducedMotion={reducedMotion} />
-      <MiniatureWorld opacity={everydayOpacity} reducedMotion={reducedMotion} onMemorySelect={onMemorySelect} />
+      <MiniatureWorld opacity={miniatureWorldOpacity} reducedMotion={reducedMotion} onMemorySelect={onMemorySelect} />
       <ConstellationScene
         opacity={constellationOpacity}
         activeStarIds={activeStarIds}

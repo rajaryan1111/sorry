@@ -24,7 +24,7 @@ export const everydayScene = {
   eyebrow: '02 / Everyday friendship',
   title: 'It was simple to me: friendship.',
   body: [
-    'Same class. Same food breaks. Same gym sessions. Random conversations. Stupid jokes. Complaining about college. Somehow, ordinary days became good days.',
+    'Same class. Studying together for exams. Same food breaks. Same gym sessions. Random conversations. Stupid jokes. Complaining about college. Somehow, ordinary days became good days.',
     'None of that was complicated to me. It was just friendship — and it is a friendship I genuinely value.',
   ],
   actionAriaLabel: 'Open small friendship notes',
@@ -36,6 +36,11 @@ export const everydayMemories = [
     id: 'college',
     title: 'College',
     line: 'Same class. A lot of ordinary conversations around ordinary college days.',
+  },
+  {
+    id: 'study',
+    title: 'Study',
+    line: 'Studying together before exams — going through notes, figuring things out, and getting through college together.',
   },
   {
     id: 'food',
@@ -57,31 +62,33 @@ export const everydayMemories = [
 export type EverydayMemoryId = (typeof everydayMemories)[number]['id'];
 
 export const littleThingsScene = {
-  eyebrow: '03 / The Little Things',
-  title: 'No photos. No big story. Just ordinary things.',
-  prompt:
-    'Tap a few brighter stars if you want. Each one is just a small part of the friendship — nothing invented, nothing exaggerated.',
+  eyebrow: '03 / THE LITTLE THINGS',
+  title: 'The little things mattered too.',
+  subtitle: [
+    'College. Studying together. Food breaks. Gym sessions. Random conversations. Stupid jokes.',
+    'Nothing extraordinary — just the ordinary things that made our friendship what it is.',
+  ],
   actionAriaLabel: 'Activate little things in the constellation',
   revealThreshold: 4,
 } as const;
 
 export const littleThingsStars = [
-  { id: 'college', label: 'College.' },
-  { id: 'food', label: 'Food.' },
-  { id: 'gym', label: 'Gym.' },
-  { id: 'talks', label: 'Random talks.' },
-  { id: 'teasing', label: 'Teasing each other.' },
-  { id: 'complaining', label: 'Complaining about college.' },
-  { id: 'nothing', label: 'Doing absolutely nothing.' },
-  { id: 'laughing', label: 'Laughing at stupid things.' },
+  { id: 'college', label: 'College' },
+  { id: 'study', label: 'Studying together' },
+  { id: 'food', label: 'Food' },
+  { id: 'gym', label: 'Gym' },
+  { id: 'talks', label: 'Random talks' },
+  { id: 'teasing', label: 'Teasing each other' },
+  { id: 'complaining', label: 'Complaining about college' },
+  { id: 'nothing', label: 'Doing absolutely nothing' },
+  { id: 'laughing', label: 'Laughing at stupid things' },
 ] as const;
 
 export type LittleThingId = (typeof littleThingsStars)[number]['id'];
 
 export const littleThingsReveal = [
   'Nothing extraordinary.',
-  'Just a lot of ordinary days that became good memories.',
-  "That's why I didn't want things to become awkward between us.",
+  'Just ordinary days that became good memories.',
 ] as const;
 
 export const apologyScene = {
@@ -114,7 +121,7 @@ export const letterParagraphs = [
   },
   { text: "You're my friend.", emphasis: false },
   {
-    text: 'Someone I spend a huge part of my everyday life with — class, food, gym, random conversations, stupid jokes and everything in between.',
+    text: 'Someone I spend a huge part of my everyday life with — class, studying for exams, food, gym, random conversations, stupid jokes and everything in between.',
     emphasis: false,
   },
   { text: 'I never wanted any of that to become uncomfortable for you.', emphasis: false },
@@ -125,7 +132,6 @@ export const letterParagraphs = [
   { text: "I don't expect you to reply.", emphasis: false },
   { text: "I don't expect you to forgive me immediately.", emphasis: false },
   { text: 'I just wanted to say sorry properly.', emphasis: false },
-  { text: 'Please pardon me.', emphasis: true },
   { text: '— Aryan', emphasis: false, signature: true },
 ] as const;
 

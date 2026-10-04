@@ -56,11 +56,15 @@ export function LittleThingsScene({ activatedCount, onActivateStar }: LittleThin
               viewport={{ once: true, amount: 0.45 }}
               transition={{ duration: 0.65, delay: 0.18 }}
             >
-              <p className="constellation-prompt">{littleThingsScene.prompt}</p>
+              <div className="constellation-prompt">
+                {littleThingsScene.subtitle.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
               <div className="star-actions" aria-label={littleThingsScene.actionAriaLabel}>
                 {littleThingsStars.map((star) => (
                   <button key={star.id} type="button" onClick={() => onActivateStar(star.id)}>
-                    {star.label.replace('.', '')}
+                    {star.label}
                   </button>
                 ))}
               </div>

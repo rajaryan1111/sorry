@@ -454,6 +454,15 @@ h2,
   margin-inline: auto;
 }
 
+.constellation-prompt {
+  display: grid;
+  gap: 0.46rem;
+}
+
+.constellation-prompt p {
+  margin: 0;
+}
+
 .constellation-reveal p {
   color: rgba(246, 240, 228, 0.84);
   font-size: clamp(1.05rem, 1rem + 0.45vw, 1.42rem);
