@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { letterParagraphs } from '../data/apologyContent';
+import { letterParagraphs, letterScene } from '../data/apologyContent';
 
 interface LetterSceneProps {
   letterOpen: boolean;
@@ -19,21 +19,21 @@ export function LetterScene({
       <div className="scene-copy scene-copy--center scene-copy--letter">
         <motion.span
           className="eyebrow"
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 0.75, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.55 }}
         >
-          05 / The 3D Letter
+          {letterScene.eyebrow}
         </motion.span>
         <motion.h2
           id="letter-title"
-          initial={{ opacity: 0, y: 28, filter: 'blur(12px)' }}
+          initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.9, delay: 0.1 }}
+          transition={{ duration: 0.72, delay: 0.08 }}
         >
-          One thing, properly.
+          {letterScene.title}
         </motion.h2>
 
         <AnimatePresence mode="wait">
@@ -41,29 +41,25 @@ export function LetterScene({
             <motion.div
               key="closed-letter"
               className="letter-intro"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.45 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.35 }}
             >
-              <p>
-                A quiet letter — no pressure attached, no expectation hidden inside it.
-              </p>
+              <p>{letterScene.intro}</p>
               <button className="ghost-button" type="button" onClick={onOpenLetter}>
-                Open it.
+                {letterScene.openButton}
               </button>
-              {letterCompleted ? (
-                <small>When you are ready, there is one last quiet thing below.</small>
-              ) : null}
+              {letterCompleted ? <small>{letterScene.completedHint}</small> : null}
             </motion.div>
           ) : (
             <motion.article
               key="open-letter"
               className="letter-paper"
-              initial={{ opacity: 0, y: 34, rotateX: -6, filter: 'blur(10px)' }}
+              initial={{ opacity: 0, y: 24, rotateX: -4, filter: 'blur(7px)' }}
               animate={{ opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
-              transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+              exit={{ opacity: 0, y: -14, filter: 'blur(6px)' }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
               {letterParagraphs.map((paragraph, index) => {
                 const isSignature = 'signature' in paragraph && paragraph.signature;
@@ -79,7 +75,7 @@ export function LetterScene({
                 );
               })}
               <button className="letter-paper__close" type="button" onClick={onCloseLetter}>
-                Close this letter
+                {letterScene.closeButton}
               </button>
             </motion.article>
           )}

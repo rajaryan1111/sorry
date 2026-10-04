@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { finalEndingLines, oneLastThingLines, seedEndingLines } from '../data/apologyContent';
+import { endingLines, endingScene, finalEndingLines } from '../data/apologyContent';
 
 interface EndingSceneProps {
   lastThingOpen: boolean;
@@ -11,23 +11,23 @@ export function EndingScene({ lastThingOpen, onOpenLastThing }: EndingSceneProps
     <section className="scene-section scene-section--ending" data-scene-index="5" aria-labelledby="ending-title">
       <div className="scene-copy scene-copy--center scene-copy--ending">
         <h2 id="ending-title" className="sr-only">
-          One last thing
+          {endingScene.title}
         </h2>
         <AnimatePresence mode="wait">
           {!lastThingOpen ? (
             <motion.div
               key="one-last-button"
               className="ending-start"
-              initial={{ opacity: 0, y: 22, filter: 'blur(12px)' }}
+              initial={{ opacity: 0, y: 16, filter: 'blur(8px)' }}
               whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: -18, filter: 'blur(8px)' }}
+              exit={{ opacity: 0, y: -12, filter: 'blur(6px)' }}
               viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.85 }}
+              transition={{ duration: 0.65 }}
             >
               <button className="ghost-button" type="button" onClick={onOpenLastThing}>
-                One last thing…
+                {endingScene.button}
               </button>
-              <p>Only if you want to read it.</p>
+              <p>{endingScene.intro}</p>
             </motion.div>
           ) : (
             <motion.div
@@ -36,43 +36,24 @@ export function EndingScene({ lastThingOpen, onOpenLastThing }: EndingSceneProps
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.3 }}
             >
-              {oneLastThingLines.map((line, index) => (
+              {endingLines.map((line, index) => (
                 <motion.p
                   key={line}
-                  initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
+                  initial={{ opacity: 0, y: 18, filter: 'blur(7px)' }}
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  transition={{ duration: 0.9, delay: index * 1.15, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.68, delay: index * 0.72, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {line}
                 </motion.p>
               ))}
 
-              <div className="ending-lines__seed">
-                {seedEndingLines.map((line, index) => (
-                  <motion.p
-                    key={line}
-                    initial={{ opacity: 0, y: 22 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.86,
-                      delay: oneLastThingLines.length * 1.15 + 1.2 + index * 0.9,
-                    }}
-                  >
-                    {line}
-                  </motion.p>
-                ))}
-              </div>
-
               <motion.div
                 className="ending-lines__final"
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 1,
-                  delay: oneLastThingLines.length * 1.15 + 1.2 + seedEndingLines.length * 0.9 + 0.6,
-                }}
+                transition={{ duration: 0.75, delay: endingLines.length * 0.72 + 0.45 }}
               >
                 <p>{finalEndingLines[0]}</p>
                 <span>{finalEndingLines[1]}</span>

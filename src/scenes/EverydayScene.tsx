@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { everydayMemories, type EverydayMemoryId } from '../data/apologyContent';
+import { everydayMemories, everydayScene, type EverydayMemoryId } from '../data/apologyContent';
 
 interface EverydaySceneProps {
   onMemorySelect: (memory: EverydayMemoryId) => void;
@@ -11,37 +11,40 @@ export function EverydayScene({ onMemorySelect }: EverydaySceneProps) {
       <div className="scene-copy scene-copy--left">
         <motion.span
           className="eyebrow"
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 0.75, y: 0 }}
           viewport={{ once: true, amount: 0.45 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.55 }}
         >
-          02 / Our little everyday world
+          {everydayScene.eyebrow}
         </motion.span>
         <motion.h2
           id="everyday-title"
-          initial={{ opacity: 0, y: 28, filter: 'blur(12px)' }}
+          initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true, amount: 0.45 }}
-          transition={{ duration: 0.9, delay: 0.1 }}
+          transition={{ duration: 0.72, delay: 0.08 }}
         >
-          It was never meant to be complicated.
+          {everydayScene.title}
         </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 0.86, y: 0 }}
-          viewport={{ once: true, amount: 0.45 }}
-          transition={{ duration: 0.85, delay: 0.28 }}
-        >
-          Same class, food, gym, random jokes, and a lot of ordinary time together. Tap the small objects in this little world — they are only symbols of a friendship I value.
-        </motion.p>
+        {everydayScene.body.map((paragraph, index) => (
+          <motion.p
+            key={paragraph}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 0.86, y: 0 }}
+            viewport={{ once: true, amount: 0.45 }}
+            transition={{ duration: 0.65, delay: 0.2 + index * 0.12 }}
+          >
+            {paragraph}
+          </motion.p>
+        ))}
         <motion.div
           className="memory-actions"
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.45 }}
-          transition={{ duration: 0.7, delay: 0.46 }}
-          aria-label="Open small friendship memories"
+          transition={{ duration: 0.55, delay: 0.42 }}
+          aria-label={everydayScene.actionAriaLabel}
         >
           {everydayMemories.map((memory) => (
             <button key={memory.id} type="button" onClick={() => onMemorySelect(memory.id)}>
@@ -51,7 +54,7 @@ export function EverydayScene({ onMemorySelect }: EverydaySceneProps) {
         </motion.div>
       </div>
       <div className="scroll-hint" aria-hidden="true">
-        explore gently · then scroll
+        {everydayScene.scrollHint}
       </div>
     </section>
   );

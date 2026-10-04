@@ -48,8 +48,7 @@ export default function App() {
   const handleCloseLetter = useCallback(() => {
     setLetterOpen(false);
     setLetterCompleted(true);
-    window.setTimeout(() => scrollToScene(5, reducedMotion), reducedMotion ? 0 : 520);
-  }, [reducedMotion]);
+  }, []);
 
   useEffect(() => {
     if (activeScene !== 1) setSelectedMemory(null);

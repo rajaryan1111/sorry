@@ -20,7 +20,7 @@ interface ConstellationSceneProps {
 
 const starPositions: Record<LittleThingId, [number, number, number]> = {
   college: [-2.0, 0.72, -0.2],
-  eating: [-1.22, 1.38, 0.34],
+  food: [-1.22, 1.38, 0.34],
   gym: [-0.28, 0.96, -0.16],
   talks: [0.58, 1.58, 0.24],
   teasing: [1.52, 1.05, -0.08],
@@ -82,7 +82,7 @@ function BrightStar({
   return (
     <group position={position} onClick={handleClick} onPointerOver={handlePointerOver} onPointerOut={handlePointerOut}>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[0.06, 24, 24]} />
+        <sphereGeometry args={[0.055, 16, 16]} />
         <meshBasicMaterial
           color={activated || highlighted ? '#fff3c9' : '#d9ecff'}
           transparent
@@ -90,7 +90,7 @@ function BrightStar({
         />
       </mesh>
       <mesh>
-        <sphereGeometry args={[0.18, 24, 16]} />
+        <sphereGeometry args={[0.17, 18, 12]} />
         <meshBasicMaterial
           color={activated || highlighted ? '#f7c978' : '#86bfff'}
           transparent
@@ -98,11 +98,6 @@ function BrightStar({
           depthWrite={false}
         />
       </mesh>
-      <pointLight
-        color={activated || highlighted ? '#ffd99d' : '#9ecfff'}
-        intensity={opacity * (activated || highlighted ? 0.48 : 0.12)}
-        distance={1.4}
-      />
     </group>
   );
 }
@@ -175,7 +170,7 @@ export function ConstellationScene({
 
   const reconnectingSegments = useMemo(
     () => [
-      [starPositions.college, starPositions.eating],
+      [starPositions.college, starPositions.food],
       [starPositions.nothing, starPositions.laughing],
     ],
     [],
@@ -191,7 +186,7 @@ export function ConstellationScene({
 
   return (
     <group ref={groupRef} position={[0, -0.12, 0]}>
-      <DistantStars count={reducedMotion ? 90 : 230} opacity={opacity} reducedMotion={reducedMotion} />
+      <DistantStars count={reducedMotion ? 60 : 150} opacity={opacity} reducedMotion={reducedMotion} />
 
       {littleThingsStars.map((star) => {
         const activated = activeSet.has(star.id);

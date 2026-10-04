@@ -40,34 +40,47 @@ function InteractiveShell({
 }
 
 function FriendLights({ opacity, reducedMotion }: { opacity: number; reducedMotion: boolean }) {
-  const firstRef = useRef<THREE.Mesh>(null);
-  const secondRef = useRef<THREE.Mesh>(null);
+  const firstRef = useRef<THREE.Group>(null);
+  const secondRef = useRef<THREE.Group>(null);
 
   useFrame(({ clock }) => {
-    const time = reducedMotion ? 0.8 : clock.elapsedTime * 0.34;
-    const pathA = new THREE.Vector3(Math.sin(time) * 1.45, 0.22, Math.cos(time * 0.82) * 0.86);
-    const pathB = new THREE.Vector3(
-      Math.sin(time + 0.52) * 1.33 + 0.12,
-      0.2,
-      Math.cos(time * 0.82 + 0.48) * 0.78 + 0.08,
-    );
+    const time = reducedMotion ? 0.8 : clock.elapsedTime * 0.28;
 
-    if (firstRef.current) firstRef.current.position.copy(pathA);
-    if (secondRef.current) secondRef.current.position.copy(pathB);
+    if (firstRef.current) {
+      firstRef.current.position.set(Math.sin(time) * 1.45, 0.22, Math.cos(time * 0.82) * 0.86);
+    }
+
+    if (secondRef.current) {
+      secondRef.current.position.set(
+        Math.sin(time + 0.52) * 1.33 + 0.12,
+        0.2,
+        Math.cos(time * 0.82 + 0.48) * 0.78 + 0.08,
+      );
+    }
   });
 
   return (
     <group>
-      <mesh ref={firstRef}>
-        <sphereGeometry args={[0.07, 24, 24]} />
-        <meshBasicMaterial color="#f7d59b" transparent opacity={opacity} />
-        <pointLight color="#ffd99a" intensity={opacity * 0.45} distance={1.6} />
-      </mesh>
-      <mesh ref={secondRef}>
-        <sphereGeometry args={[0.07, 24, 24]} />
-        <meshBasicMaterial color="#a9d8ff" transparent opacity={opacity} />
-        <pointLight color="#bde2ff" intensity={opacity * 0.38} distance={1.5} />
-      </mesh>
+      <group ref={firstRef}>
+        <mesh>
+          <sphereGeometry args={[0.062, 16, 16]} />
+          <meshBasicMaterial color="#f2d39a" transparent opacity={opacity} />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[0.16, 16, 12]} />
+          <meshBasicMaterial color="#f2d39a" transparent opacity={opacity * 0.12} depthWrite={false} />
+        </mesh>
+      </group>
+      <group ref={secondRef}>
+        <mesh>
+          <sphereGeometry args={[0.062, 16, 16]} />
+          <meshBasicMaterial color="#a9d8ff" transparent opacity={opacity} />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[0.16, 16, 12]} />
+          <meshBasicMaterial color="#a9d8ff" transparent opacity={opacity * 0.11} depthWrite={false} />
+        </mesh>
+      </group>
     </group>
   );
 }
@@ -120,7 +133,7 @@ function FoodCluster({ opacity }: { opacity: number }) {
     <Float speed={1.05} rotationIntensity={0.03} floatIntensity={0.02}>
       <group position={[1.34, 0.08, -0.58]}>
         <mesh position={[0, 0.16, 0]} castShadow>
-          <cylinderGeometry args={[0.34, 0.34, 0.08, 42]} />
+          <cylinderGeometry args={[0.34, 0.34, 0.08, 32]} />
           <meshStandardMaterial color="#6b4a34" roughness={0.66} transparent opacity={opacity} />
         </mesh>
         <mesh position={[0, 0.03, 0]} castShadow>
@@ -219,7 +232,7 @@ export function MiniatureWorld({ opacity, reducedMotion, onMemorySelect }: Minia
       new THREE.Vector3(0.35, 0.03, 1.1),
       new THREE.Vector3(-1.2, 0.025, 0.92),
     ]);
-    return new THREE.TubeGeometry(curve, 92, 0.018, 8, false);
+    return new THREE.TubeGeometry(curve, 64, 0.016, 8, false);
   }, []);
 
   if (opacity <= 0.015) return null;
@@ -227,7 +240,7 @@ export function MiniatureWorld({ opacity, reducedMotion, onMemorySelect }: Minia
   return (
     <group position={[0, -1.25, 0]} rotation={[0, -0.18, 0]}>
       <mesh receiveShadow position={[0, -0.035, 0]}>
-        <cylinderGeometry args={[2.55, 2.7, 0.08, 84]} />
+        <cylinderGeometry args={[2.55, 2.7, 0.08, 64]} />
         <meshStandardMaterial
           color="#07111f"
           emissive="#08172c"

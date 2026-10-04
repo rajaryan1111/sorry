@@ -13,7 +13,7 @@ function createNoiseBuffer(context: AudioContext) {
   const data = buffer.getChannelData(0);
 
   for (let index = 0; index < length; index += 1) {
-    data[index] = (Math.random() * 2 - 1) * 0.18;
+    data[index] = (Math.random() * 2 - 1) * 0.08;
   }
 
   return buffer;
@@ -30,17 +30,17 @@ function createAmbientEngine(): AmbientEngine {
 
   master.gain.value = 0;
   filter.type = 'lowpass';
-  filter.frequency.value = 680;
-  filter.Q.value = 0.72;
-  padGain.gain.value = 0.08;
-  noiseGain.gain.value = 0.014;
+  filter.frequency.value = 520;
+  filter.Q.value = 0.58;
+  padGain.gain.value = 0.045;
+  noiseGain.gain.value = 0.006;
 
   [110, 164.8, 220.4].forEach((frequency, index) => {
     const oscillator = context.createOscillator();
     const voiceGain = context.createGain();
     oscillator.type = index === 1 ? 'triangle' : 'sine';
     oscillator.frequency.value = frequency;
-    voiceGain.gain.value = index === 1 ? 0.03 : 0.025;
+    voiceGain.gain.value = index === 1 ? 0.018 : 0.014;
     oscillator.connect(voiceGain).connect(padGain);
     oscillator.start();
     oscillators.push(oscillator);
@@ -83,7 +83,7 @@ export function MusicToggle() {
       await engineRef.current.context.resume();
     }
 
-    fadeTo(0.045);
+    fadeTo(0.026);
     setEnabled(true);
   }, [fadeTo]);
 

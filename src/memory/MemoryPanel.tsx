@@ -14,16 +14,16 @@ export function MemoryPanel({ selectedMemory, onClose }: MemoryPanelProps) {
       {memory ? (
         <motion.aside
           className="memory-panel"
-          initial={{ opacity: 0, y: 20, filter: 'blur(12px)' }}
+          initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: 16, filter: 'blur(10px)' }}
-          transition={{ duration: 0.45, ease: 'easeOut' }}
+          exit={{ opacity: 0, y: 12, filter: 'blur(7px)' }}
+          transition={{ duration: 0.32, ease: 'easeOut' }}
           aria-live="polite"
         >
           <span className="eyebrow">{memory.title}</span>
           <p>{memory.line}</p>
           <button type="button" onClick={onClose}>
-            let it stay quiet
+            Close
           </button>
         </motion.aside>
       ) : null}
