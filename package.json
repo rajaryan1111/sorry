@@ -1,7 +1,8 @@
 {
   "name": "for-tushi-just-one-thing",
-  "private": true,
   "version": "0.1.0",
+  "description": "A restrained cinematic 3D apology experience built with React, TypeScript, Three.js and React Three Fiber.",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
